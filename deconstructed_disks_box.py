@@ -54,15 +54,15 @@ for event in range(events):
         position[k][l] += velocity[k][l]*next_event
     if min(wall_times) < min(pair_times):
         collision_disk, direction = single[wall_times.index(next_event)]
-        velocity[collision_disk][direction] *= -1.0 #if a wall is hit, 
+        velocity[collision_disk][direction] *= -1.0 #if a wall is hit,
     else:
         a, b = pairs[pair_times.index(next_event)]
-        #Argumento de algebra lineal y marcos de referencia inerciales diferentes, muy largo para poner aqu
+        #Taking as reference frame the center of mass
         del_x = [position[b][0] - position[a][0], position[b][1] - position[a][1]]
         abs_x =math.sqrt(del_x[0]**2 + del_x[1]**2)
-        e_perp = [c/abs_x for c in del_x] #definicion de vector perpendicular
+        e_perp = [c/abs_x for c in del_x] #orthogonal vector in new frame
         del_v = [velocity[b][0] - velocity[a][0], velocity[b][1] -velocity[a][1]]
-        p_esc = del_v[0]*e_perp[0] + del_v[1]*e_perp[1]   #producto escalar de diferencia en velocidad y vector perpendicualr
+        p_esc = del_v[0]*e_perp[0] + del_v[1]*e_perp[1]   #scalar multiplication
         for k in range(2):
             velocity[a][k] += e_perp[k]*p_esc
             velocity[b][k] -= e_perp[k]*p_esc
